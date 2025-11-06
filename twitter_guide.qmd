@@ -1,0 +1,167 @@
+---
+title: "X (Twitter) Data Scraping Guide"
+---
+
+## Overview
+
+This project includes a Python script to scrape data from X (formerly Twitter) using the official X API v2.
+
+## Setup Instructions
+
+### 1. Get X API Credentials
+
+To use this scraper, you need X API credentials:
+
+1. Go to [X Developer Portal](https://developer.twitter.com/en/portal/dashboard)
+2. Create a new project and app (or use an existing one)
+3. Generate your API keys and tokens:
+   - API Key (Consumer Key)
+   - API Secret (Consumer Secret)
+   - Bearer Token
+   - Access Token
+   - Access Token Secret
+
+### 2. Install Dependencies
+
+Install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+Required packages:
+- `tweepy` - Official X API library
+- `python-dotenv` - Environment variable management
+- `pandas` - Data manipulation and analysis
+
+### 3. Configure API Credentials
+
+1. Copy the example environment file:
+   ```bash
+   copy .env.example .env
+   ```
+
+2. Edit `.env` and add your X API credentials:
+   ```
+   X_API_KEY=your_api_key_here
+   X_API_SECRET=your_api_secret_here
+   X_BEARER_TOKEN=your_bearer_token_here
+   X_ACCESS_TOKEN=your_access_token_here
+   X_ACCESS_TOKEN_SECRET=your_access_token_secret_here
+   ```
+
+## Usage
+
+### Basic Usage
+
+Run the scraper with default settings:
+
+```bash
+python twitter_scraper.py
+```
+
+### Using in Python Scripts
+
+```python
+from twitter_scraper import TwitterScraper
+
+# Initialize scraper
+scraper = TwitterScraper()
+
+# Search for tweets
+df = scraper.search_tweets("COPASA OR ALMG", max_results=100)
+
+# Get tweets from a specific user
+df_user = scraper.get_user_tweets("username", max_results=50)
+
+# Save data
+scraper.save_data(df, "my_tweets")
+```
+
+### Search Query Examples
+
+- Simple search: `"COPASA"`
+- Multiple terms: `"COPASA OR ALMG"`
+- Exclude retweets: `"COPASA -is:retweet"`
+- With hashtag: `"#COPASA"`
+- From specific user: `"from:username COPASA"`
+- With minimum engagement: `"COPASA min_faves:10"`
+
+For more query operators, see [X API Search Operators](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query).
+
+## Output
+
+The scraper saves data in two formats:
+
+- **CSV**: `data/twitter_data_YYYYMMDD_HHMMSS.csv`
+- **JSON**: `data/twitter_data_YYYYMMDD_HHMMSS.json`
+
+### Data Fields
+
+Each tweet includes:
+
+- `tweet_id` - Unique tweet identifier
+- `text` - Tweet content
+- `created_at` - Timestamp
+- `author_username` - Username of tweet author
+- `author_name` - Display name of author
+- `retweet_count` - Number of retweets
+- `reply_count` - Number of replies
+- `like_count` - Number of likes
+- `quote_count` - Number of quote tweets
+- `language` - Language code
+
+## API Limits
+
+**Free Tier Limits (X API v2)**:
+- 500,000 tweets per month
+- 100 tweets per request (max)
+- Rate limit: 450 requests per 15-minute window
+
+**Note**: The scraper includes `wait_on_rate_limit=True` to automatically handle rate limits.
+
+## Integration with Quarto
+
+You can analyze the scraped data in Quarto documents:
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load data
+df = pd.read_csv('data/twitter_data_20231106_120000.csv')
+
+# Analyze
+print(f"Total tweets: {len(df)}")
+print(f"Average likes: {df['like_count'].mean():.1f}")
+
+# Visualize
+df['like_count'].hist(bins=20)
+plt.xlabel('Likes')
+plt.ylabel('Frequency')
+plt.title('Distribution of Tweet Likes')
+plt.show()
+```
+
+## Troubleshooting
+
+### Authentication Error
+- Verify your credentials in `.env` are correct
+- Ensure your X Developer account is approved
+- Check that your app has the correct permissions
+
+### No Tweets Found
+- Verify your search query syntax
+- Check if the query matches any recent tweets (last 7 days for free tier)
+- Try a broader search query
+
+### Rate Limit Error
+- Wait for the rate limit window to reset (15 minutes)
+- Reduce `max_results` parameter
+- Consider upgrading to X API Pro tier
+
+## Resources
+
+- [X API Documentation](https://developer.twitter.com/en/docs/twitter-api)
+- [Tweepy Documentation](https://docs.tweepy.org/)
+- [Search Query Guide](https://developer.twitter.com/en/docs/twitter-api/tweets/search/integrate/build-a-query)

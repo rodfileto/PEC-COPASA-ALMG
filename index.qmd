@@ -1,0 +1,42 @@
+---
+title: "Welcome to PEC COPASA ALMG"
+---
+
+## Introduction
+
+This is a Quarto website project for PEC COPASA ALMG.
+
+### Getting Started
+
+You can add content to this page using Markdown and Quarto syntax.
+
+## Features
+
+- **Easy to use**: Write content in Markdown
+- **Dynamic content**: Embed R, Python, Julia, or Observable code
+- **Professional output**: Generate beautiful HTML documents
+
+## Example Code
+
+```{r}
+#| echo: true
+#| eval: false
+
+# Example R code
+plot(1:10)
+```
+
+```{python}
+#| echo: true
+#| eval: false
+#| python.reticulate: false
+
+# Example Python code
+import matplotlib.pyplot as plt
+plt.plot([1, 2, 3, 4])
+plt.show()
+```
+
+## Next Steps
+
+Edit this file (`index.qmd`) to customize your homepage, or create new `.qmd` files to add more pages to your website.

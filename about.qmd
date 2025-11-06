@@ -1,0 +1,17 @@
+---
+title: "About"
+---
+
+## About this Project
+
+Add information about your project here.
+
+### Project Details
+
+- **Project Name**: PEC COPASA ALMG
+- **Created**: November 2025
+- **Purpose**: [Describe the purpose of your project]
+
+### Contact
+
+Add your contact information or team details here.

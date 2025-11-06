@@ -1,0 +1,27 @@
+project:
+  type: website
+  output-dir: _site
+
+execute:
+  engine: knitr
+  python: C:/Users/user/Documents/PEC-COPASA-ALMG/.venv/Scripts/python.exe
+
+website:
+  title: "PEC COPASA ALMG"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+      - href: twitter_guide.qmd
+        text: Twitter Scraper Guide
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+knitr:
+  opts_chunk:
+    python.reticulate: false
